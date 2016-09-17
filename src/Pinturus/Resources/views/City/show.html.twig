@@ -1,0 +1,27 @@
+{% extends generic_layout %}
+
+{% block head_title %}Admin Ville{% endblock %}
+{% block main_title %}Administration - Ville{% endblock %}
+
+{% block main_content %}
+	<table class="admin_show">
+		<tr>
+			<th>Titre</th>
+			<td>{{ entity.title }}</td>
+		</tr>
+		<tr>
+			<th>Texte</th>
+			<td>{{ entity.text|raw }}</td>
+		</tr>
+		<tr>
+			<th>Photo</th>
+			<td><p class="center">{{ ("photo/city/"~entity.photo)|max_size_image(app.request.basepath) }}</p></td>
+		</tr>
+		<tr>
+			<th>Pays</th>
+			<td>{{ entity.country|toString('title') }}</td>
+		</tr>
+	</table>
+	<hr>
+	<a href="{{ path('cityadmin_edit', { 'id' : entity.id }) }}"><i class="fa fa-edit"></i> Modifier</a> - <a href="{{ path('cityadmin_new') }}"><i class="fa fa-plus-square"></i> Créer</a>
+{% endblock %}

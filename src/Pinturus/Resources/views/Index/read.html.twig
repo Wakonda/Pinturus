@@ -1,0 +1,235 @@
+{% extends generic_layout %}
+
+{% block head_title %}{{ entity.title }}{% endblock %}
+{% block main_title %}{{ entity.title }}{% endblock %}
+
+{% block style_additional %}
+	<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/js/jquery.qtip/jquery.qtip.min.css" />
+{% endblock %}
+
+{% block script_additional %}
+<script src="{{ app.request.basepath }}/js/jquery.qtip/jquery.qtip.min.js"></script>
+<script type="text/javascript">
+	$(function()
+	{
+		$("#print_page").click(function()
+		{
+			window.print();
+			
+			return false;
+		});
+		
+		$("div.vote_action").click(function()
+		{
+			initializeProgressValue("{{ path('vote_painting', { 'idPainting' : entity.id }) }}?vote=" + $(this).data("vote"), $(this));
+		});
+		
+		initializeProgressValue("{{ path('vote_painting', { 'idPainting' : entity.id }) }}", null);
+		
+		function initializeProgressValue(url, el)
+		{
+			$.ajax(
+			{
+				type: "GET",
+				url: url,
+				cache: false,
+				success: function(data)
+				{
+					$("progress#avancement").attr("value", data.value);
+					$("progress#avancement").html("Score : " + data.value + "%");
+					$("span#up_values").html(data.up);
+					$("span#down_values").html(data.down);
+
+					if(data.alreadyVoted != "")
+					{
+						el.qtip({
+							content: {
+								text: data.alreadyVoted,
+								title: 'Erreur',
+							},
+							style: { classes: 'qtip-red' }
+						});
+						el.qtip("show");
+						setTimeout(function(){ el.qtip("hide"); }, 3000);
+					}
+				}
+			});
+			return false;
+		}
+		
+		$("#painting_browsing span#next_data a").qtip({
+			content: {
+				text: $('#painting_browsing span#next_data').data('navTitle'),
+				title: $('#painting_browsing span#next_data').data('navAction') + ' <i class="fa fa-arrow-circle-right"></i>'
+			},
+			position : {
+					my: 'top right',
+					at: 'bottom left'
+			},
+			style: { classes: 'qtip-tipped' }
+		});
+		
+		$("#painting_browsing span#previous_data a").qtip({
+			content: {
+				text: $('#painting_browsing span#previous_data').data('navTitle'),
+				title: '<i class="fa fa-arrow-circle-left"></i> ' + $('#painting_browsing span#previous_data').data('navAction')
+			},
+
+			style: { classes: 'qtip-tipped' }
+		});
+	});
+</script>
+{% endblock %}
+
+{% block main_content %}
+	<div class="displayNone success" id="send_painting_result"></div>
+	<p class="center">{{ ("photo/painting/"~entity.photo)|max_size_image(app.request.basepath) }}</p>
+	<br>
+	<div>
+		<h3>Présentation</h3>
+		{{ entity.text|raw }}
+	</div>
+	<h3>Informations générales</h3>
+	<table id="generic_info">
+		<tbody>
+			<tr>
+				<th>Date de début</th>
+				<td>{{ entity.yearStart }}</td>
+			</tr>
+			<tr>
+				<th>Date de fin</th>
+				<td>{{ entity.yearEnd }}</td>
+			</tr>
+			<tr>
+				<th>Dimensions</th>
+				<td>{{ entity.width }} X {{ entity.height }}</td>
+			</tr>
+			<tr>
+				<th>Lieu</th>
+				<td>{{ entity.location|toString('title') }}</td>
+			</tr>
+			<tr>
+				<th>Type</th>
+				<td>{{ entity.type|toString('title') }}</td>
+			</tr>
+			<tr>
+				<th>Mouvement</th>
+				<td>{{ entity.movement|toString('title') }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+	<p>
+	<a href="{{ path('author', {'id' : entity.biography.id }) }}" alt="">{{ entity.biography.title }}</a>
+	-
+	<a href="{{ path('country', {'id' : entity.biography.country.id }) }}" alt=""><img class="flag" src="{{ app.request.basepath }}/photo/country/{{ entity.biography.country.flag }}" alt="" height="8" /></a>
+	</p>
+	<table class="hidden_print">
+		<tbody>
+			<tr>
+				<td class="socialNetwork">
+					<a href="{{ path('read_pdf', {'id' : entity.id}) }}"><img src="{{ app.request.basepath }}/photo/pdf.gif" alt="" /></a>
+				</td>
+				<td class="socialNetwork">
+					<a id="print_page" href="#"><img src="{{ app.request.basepath }}/photo/print.gif" alt="" /></a>
+				</td>
+				<td class="socialNetwork">
+					<a href="#" data-toggle="modal" data-target="#send_painting_modal"><img src="{{ app.request.basepath }}/photo/share-by-mail.png" alt="" /></a>
+				</td>
+				<td class="socialNetwork" id="twitter">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-via="Wakonda1" id="TwitterShareButton1">Tweet</a>
+					<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					<script type="text/javascript">
+						$(function(){
+							var ValidMe=document.getElementById("TwitterShareButton1");
+							ValidMe.setAttribute("data-count","horizontal");
+							ValidMe.setAttribute("data-text", "Pinturus - {{ entity.title }}");
+						});
+					</script>
+				</td>
+				<td class="socialNetwork">
+					<div id="fb-root"></div>
+					<script type="text/javascript">(function(d, s, id) {
+					  var js, fjs = d.getElementsByTagName(s)[0];
+					  if (d.getElementById(id)) return;
+					  js = d.createElement(s); js.id = id;
+					  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+					  fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));</script>
+					<div class="fb-like" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>
+				</td>
+				<td class="socialNetwork" id="googlePlus">
+					<!-- Place this tag where you want the +1 button to render. -->
+					<div class="g-plusone" data-size="medium"></div>
+
+					<!-- Place this tag after the last +1 button tag. -->
+					<script type="text/javascript">
+					  (function() {
+						var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+						po.src = 'https://apis.google.com/js/plusone.js';
+						var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+					  })();
+					</script>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- Modal -->
+	<div class="modal fade" id="send_painting_modal" tabindex="-1" role="dialog" aria-labelledby="sendPaintingModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="sendPaintingModalLabel">Envoyez cette peinture à un ami</h4>
+				</div>
+				{{ render(app.request.baseUrl ~ '/send_painting/index/' ~ entity.id) }}
+			</div>
+		</div>
+	</div>
+	
+	{% if(browsingPaintings['previous'] is not empty or browsingPaintings['next'] is not empty) %}
+		<div id="painting_browsing" class="hidden_print">
+			<hr>
+			{% if(browsingPaintings['previous'] is not empty) %}
+				<span data-nav-action="Précédent" data-nav-title="{{ browsingPaintings['previous']['title'] }}" id="previous_data"><a href="{{ path('read', {'id' : browsingPaintings['previous']['id']}) }}"><i class="fa fa-arrow-circle-left"></i> Précédent</a></span>
+			{% endif %}
+			
+			{% if(browsingPaintings['next'] is not empty) %}
+				<span data-nav-action="Suivant" data-nav-title="{{ browsingPaintings['next']['title'] }}" class="right" id="next_data"><a href="{{ path('read', {'id' : browsingPaintings['next']['id']}) }}">Suivant <i class="fa fa-arrow-circle-right"></i></a></span>
+			{% endif %}
+		</div>
+		<div style="clear: both;"></div>
+	{% endif %}
+	
+	<div class="hidden_print">
+		<hr>
+		<h2>Votes</h2>
+		<table id="painting_vote">
+			<tr>
+				<td>
+					<div id="up_vote"data-vote="up" class="vote_action" >+</div>
+				</td>
+				<td>
+					<progress id="avancement" value="50" max="100"></progress>
+				</td>
+				<td>
+					<div id="down_vote" data-vote="down" class="vote_action">-</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span id="up_values">-</span>
+				</td>
+				<td>
+
+				</td>
+				<td>
+					<span id="down_values">-</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	{{ render(app.request.baseUrl ~ '/comment/' ~ entity.id) }}
+{% endblock %}

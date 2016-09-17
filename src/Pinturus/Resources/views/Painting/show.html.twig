@@ -1,0 +1,55 @@
+{% extends generic_layout %}
+
+{% block head_title %}Admin Peinture{% endblock %}
+{% block main_title %}Administration - Peinture{% endblock %}
+
+{% block main_content %}
+	<table class="admin_show">
+		<tr>
+			<th>Titre</th>
+			<td>{{ entity.title }}</td>
+		</tr>
+		<tr>
+			<th>Texte</th>
+			<td>{{ entity.text|raw }}</td>
+		</tr>
+		<tr>
+			<th>Année de début</th>
+			<td>{{ entity.yearStart }}</td>
+		</tr>
+		<tr>
+			<th>Année de fin</th>
+			<td>{{ entity.yearEnd }}</td>
+		</tr>
+		<tr>
+			<th>Hauteur</th>
+			<td>{{ entity.height }}</td>
+		</tr>
+		<tr>
+			<th>Largeur</th>
+			<td>{{ entity.width }}</td>
+		</tr>
+		<tr>
+			<th>Photo</th>
+			<td><p class="center">{{ ("photo/painting/"~entity.photo)|max_size_image(app.request.basepath) }}</p></td>
+		</tr>
+		<tr>
+			<th>Lieu</th>
+			<td>{{ entity.location|toString('title') }}</td>
+		</tr>
+		<tr>
+			<th>Type</th>
+			<td>{{ entity.type|toString('title') }}</td>
+		</tr>
+		<tr>
+			<th>Mouvement</th>
+			<td>{{ entity.movement|toString('title') }}</td>
+		</tr>
+		<tr>
+			<th>Biographie</th>
+			<td>{{ entity.biography|toString('title') }}</td>
+		</tr>
+	</table>
+	<hr>
+	<a href="{{ path('paintingadmin_edit', { 'id' : entity.id }) }}"><i class="fa fa-edit"></i> Modifier</a> - <a href="{{ path('paintingadmin_new') }}"><i class="fa fa-plus-square"></i> Créer</a>
+{% endblock %}

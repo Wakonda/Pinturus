@@ -1,0 +1,89 @@
+<style type="text/css">
+<!--
+    table.page_footer {width: 100%; border: none; background-color: #ffffff; border-top: solid 0.3mm black; padding: 2mm}
+    h1, .image
+	{
+		color: #000033;
+		text-align: center;
+	}
+    h2 {color: #000055}
+    h3 {
+		color: #000077;
+		text-decoration: underline;
+		font-size: 17px;
+	}
+	
+	p, span
+	{
+		font-size: 15px;
+		text-align: justify;
+	}
+	
+	#header_title
+	{
+		font-family: "Script MT Bold", "Time New Roman", serif !important;
+	}
+
+	*
+	{
+		font-family: times;
+	}
+-->
+</style>
+
+<page backtop="14mm" backbottom="14mm" backleft="10mm" backright="10mm" style="font-size: 12pt">
+
+    <page_footer>
+        <table class="page_footer">
+            <tr>
+                <td style="width: 33%; text-align: left;">
+                    Pinturus
+                </td>
+                <td style="width: 34%; text-align: center">
+                    [[page_cu]]/[[page_nb]]
+                </td>
+                <td style="width: 33%; text-align: right">
+                    © Pinturus {{ ("2016" == "now"|date("Y")) ? "2016" : "2016 - " ~ "now"|date("Y") }}
+                </td>
+            </tr>
+        </table>
+    </page_footer>
+</page>
+
+<h1>{{ entity.title }}</h1>
+<br />
+<p class="center">{{ ("photo/painting/"~entity.photo)|max_size_image(app.request.basepath, [], true) }}</p>
+<br>
+<div>
+	<h3>Présentation</h3>
+	{{ entity.text|raw }}
+</div>
+<h3>Informations générales</h3>
+<table id="generic_info">
+	<tbody>
+		<tr>
+			<th>Date de début</th>
+			<td>{{ entity.yearStart }}</td>
+		</tr>
+		<tr>
+			<th>Date de fin</th>
+			<td>{{ entity.yearEnd }}</td>
+		</tr>
+		<tr>
+			<th>Dimensions</th>
+			<td>{{ entity.width }} X {{ entity.height }}</td>
+		</tr>
+		<tr>
+			<th>Lieu</th>
+			<td>{{ entity.location|toString('title') }}</td>
+		</tr>
+		<tr>
+			<th>Type</th>
+			<td>{{ entity.type|toString('title') }}</td>
+		</tr>
+		<tr>
+			<th>Mouvement</th>
+			<td>{{ entity.movement|toString('title') }}</td>
+		</tr>
+	</tbody>
+</table>
