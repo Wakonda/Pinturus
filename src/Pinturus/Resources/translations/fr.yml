@@ -1,0 +1,42 @@
+menu:
+    top:
+        MainPage: "Accueil"
+        Authors: "Auteurs"
+        Collections: "Recueils"
+        Countries: "Pays"
+        PoeticForms: "Formes poétiques"
+        YourPoems: "Vos poésies"
+    left:
+        RecentPoems: "Dernières poésies"
+        Publicity: "Publicité"
+        Statistics: "Statistiques"
+        MemberArea: "Espace membre"
+        Languages: "Autres langues"
+        LogIn: "Se connecter"
+        CreateAccount: "Créer un compte utilisateur"
+        NumberOfPublishedPoems: "Nombre de poésies publiées"
+        TotalAuthors: "Nombre d'auteurs"
+        NumberOfBooks: "Nombre de recueils"
+        MyProfile: "Mon profil"
+        ChangeMyPassword: "Modifier mon mot de passe"
+        EditProfile: "Modifier mon profil"
+        WritePoetry: "Ecrire une poésie"
+        LogOut: "Déconnexion"
+        Admin: "Admin"
+    footer:
+        About: "À propos"
+        ContactUs: "Contactez-nous"
+        Version: "Version"
+biography:
+    index:
+        ByAuthors: "Par auteurs"
+        HisPoems: "Ses poésies"
+    field:
+        BirthDate: "Date de naissance"
+        DeathDate: "Date de décès"
+        Nationality: "Nationalité"
+    table:
+        Number: "Nombre"
+        Author: "Auteur"
+        Title: "Titre"
+        Collection: "Recueil"

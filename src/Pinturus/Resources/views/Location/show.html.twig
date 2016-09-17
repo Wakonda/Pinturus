@@ -1,0 +1,43 @@
+{% extends generic_layout %}
+
+{% block head_title %}Admin Lieu{% endblock %}
+{% block main_title %}Administration - Lieu{% endblock %}
+
+{% block main_content %}
+	<table class="admin_show">
+		<tr>
+			<th>Titre</th>
+			<td>{{ entity.title }}</td>
+		</tr>
+		<tr>
+			<th>Texte</th>
+			<td>{{ entity.text|raw }}</td>
+		</tr>
+		<tr>
+			<th>Photo</th>
+			<td><p class="center">{{ ("photo/biography/"~entity.photo)|max_size_image(app.request.basepath) }}</p></td>
+		</tr>
+		<tr>
+			<th>Adresse</th>
+			<td>{{ entity.address }}</td>
+		</tr>
+		<tr>
+			<th>Latitude</th>
+			<td>{{ entity.latitude }}</td>
+		</tr>
+		<tr>
+			<th>Longitude</th>
+			<td>{{ entity.longitude }}</td>
+		</tr>
+		<tr>
+			<th>Site web officiel</th>
+			<td>{{ entity.officialWebsite }}</td>
+		</tr>
+		<tr>
+			<th>Ville</th>
+			<td>{{ entity.city|toString('title') }}</td>
+		</tr>
+	</table>
+	<hr>
+	<a href="{{ path('locationadmin_edit', { 'id' : entity.id }) }}"><i class="fa fa-edit"></i> Modifier</a> - <a href="{{ path('locationadmin_new') }}"><i class="fa fa-plus-square"></i> Créer</a>
+{% endblock %}

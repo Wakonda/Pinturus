@@ -1,0 +1,34 @@
+{% extends generic_layout %}
+
+{% block head_title %}Version{% endblock %}
+{% block main_title %}Version{% endblock %}
+
+{% block main_content %}
+	<p class="center"><img src="{{ app.request.basepath }}/photo/version.png" alt="" class="medium" /></p>
+	<div>
+		<table class="table table-bordered">
+			<thead>
+				<tr class="active">
+					<th>Version</th>
+					<th>Date de sortie</th>
+					<th>Lire</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entity in entities %}
+				<tr>
+					<td>{{ entity.versionNumber }}</td>
+					<td>{{ entity.releaseDate|date_letter }}</td>
+					<td>
+						{% if entity.file is not empty %}
+							<a href="{{ app.request.basepath }}/photo/version/{{ entity.file }}">Lire</a>
+						{% else %}
+							-
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

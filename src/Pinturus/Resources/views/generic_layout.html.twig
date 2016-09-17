@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="Pinturus est une encyclopédie francophone regroupant les plus belles peintures qui ont façonné l'univers féerique et passionnant de l'art." />
+		<meta name="keywords" content="po&eacute;sie, po&egrave;me, litt&eacute;rature, vers, prose, po&egrave;te, recueil, ha&iuml;ku, art po&eacute;tique" />
+		{% block meta_tag %}
+		<meta name="robots" content="index,follow" />
+		{% endblock %}
+
+		<link rel="shortcut icon" href="{{ app.request.getUriForPath('/') }}photo/favicon.jpg">
+		<link rel="alternate" href="{{ app.request.getUriForPath('/') }}" hreflang="fr-fr" />
+		<title>Pinturus - {% block head_title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/style.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/style_print.css" media="print" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/bootstrap-3.3.2-dist/css/bootstrap.min.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/js/BackToTop/BackToTop.css" />
+		
+		<script src="{{ app.request.basepath }}/js/jquery.js"></script>
+		<script src="{{ app.request.basepath }}/js/cookiechoices/cookiechoices.js"></script>
+
+		{% block script_additional %}
+		{% endblock %}
+		
+		{% block style_additional %}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="resize"></div>
+		<!-- Div Wrapper Element Starts Here -->
+		<div id="Wrapper">
+			<!-- Header Element Starts Here -->
+			<header id="header">
+				<!-- Hgroup Element Starts Here -->
+				<hgroup id="title">
+					<div id="logo">
+						<a href="{{ path('index') }}" alt="">
+							<img src="{{ app.request.basepath }}/photo/favicon.jpg" alt="logo" />
+							<span>Pinturus</span>
+						</a>
+					</div>
+					<!--<h1>Creating HTML5 <span>Responsive Web Template Using Media Queries</span></h1>-->
+					<h2>Le<small> Monde Magique </small> de la Peinture</h2>
+				</hgroup>
+				<!-- Hgroup Element Ends Here -->
+
+				<!-- Nav Element Starts Here -->
+				<nav class="navigation">
+					<a href="{{ path('index') }}"><i class="fa fa-home"></i> Accueil</a>
+					<a href="{{ path('byauthors') }}">Auteurs</a>
+					<a href="{{ path('bycountries') }}">Pays</a>
+					<a href="{{ path('bymovements') }}">Mouvements</a>
+					<a href="{{ path('bylocations') }}">Lieux</a>
+				</nav>
+			</header>
+			<!-- Header Element Ends Here -->
+			<!-- Div wrapper2 starts here -->
+			<div id="Wrapper2">
+				<!-- Sidebar Element Starts Here -->
+				<aside id="sidebar-wrapper">
+					<nav class="sidebar">
+						<h1>Publications récentes</h1>
+						{#{{ render(app.request.baseUrl ~ '/last_painting') }}#}
+						<span class="follow_on_twitter"><a href="https://twitter.com/poeticus12" class="twitter-follow-button" data-show-count="false" data-lang="fr" data-size="large" data-dnt="true">Suivre @poeticus12</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span>
+					</nav>
+
+					<nav class="sidebar">
+						<h1>Publicité</h1>
+						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+						<!-- Poeticus_right_menu -->
+						<ins class="adsbygoogle"
+							 style="display:inline-block;width:250px;height:250px"
+							 data-ad-client="ca-pub-1951906303386196"
+							 data-ad-slot="5545754940"></ins>
+						<script type="text/javascript">
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+					</nav>
+					<nav class="sidebar">
+						<h1>Statistiques</h1>
+						{{ render(app.request.baseUrl ~ '/stat_painting') }}
+					</nav>
+
+					<nav class="sidebar">
+						<h1>Espace membre</h1>
+						<ul>
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if is_granted("ROLE_ADMIN") %}
+									<li><a href="{{ path('admin') }}">Admin</a></li>
+								{% endif %}
+								<li><a href="{{ path('user_show') }}">Mon profil</a></li>
+								<li><a href="{{ path('user_udpatepassword') }}">Modifier mon mot de passe</a></li>
+								<li><a href="{{ path('user_edit') }}">Modifier mon profil</a></li>
+								<li><a href="{{ path('admin_logout') }}">Déconnexion</a></li>
+							{% else %}
+								<li><a href="{{ path('login') }}" alt="">Se connecter</a></li>
+								<li><a href="{{ path('user_new') }}" alt="">Créer un compte utilisateur</a></li>
+							{% endif %}
+						</ul>
+					</nav>
+				</aside>
+				<!-- Another Sidebar Element Ends Here -->
+				<!-- Article Element Starts Here -->
+				<article id="contents">
+					<!-- Article's Header Element Starts Here -->
+					<header>
+						<h1>{% block main_title %}Bienvenue sur Pinturus{% endblock %}</h1>
+					</header>
+					
+					{% for message in app.session.getFlashBag.get('message') %}
+						<div class="success">{{ message }}</div>
+					{% endfor %}
+					
+					{% block main_content %}{% endblock %}
+					<div class="advert">
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- poeticus_down -->
+					<ins class="adsbygoogle"
+						 style="display:block"
+						 data-ad-client="ca-pub-1951906303386196"
+						 data-ad-slot="1788413344"
+						 data-ad-format="auto"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script></div>
+				</article>
+				<!-- Article Element Ends Here -->
+			</div>
+			<!-- Div wrapper2 ends here -->
+
+			<!-- Footer Element Starts Here -->
+			<footer id="copyrights">
+				<p>© {{ ("2016" == "now"|date("Y")) ? "2016" : "2016 - " ~ "now"|date("Y") }}</p>
+				<p><a href="">Pinturus</a></p>
+				<address>
+					<a href="http://wakonda.guru">Wakonda.guru</a>
+				</address>
+			</footer>
+			<!-- Footer Element Ends Here -->
+		</div>
+		<!-- Div Wrapper Element ends Here -->
+		<script src="{{ app.request.basepath }}/css/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+		<script src="{{ app.request.basepath }}/js/BackToTop/BackToTop.js"></script>
+		<script>
+			// Resize "aside" and "article" tags
+			function resizeAsideArticle() {
+				var articleHeight = $("article#contents").height();
+				var asideHeight = $("aside#sidebar-wrapper").height();
+
+				if(asideHeight < articleHeight) {
+					$("article#contents").css("border-left", "1px solid #ccc");
+					$("aside").css("border-right", "none");
+				} else {
+					$("aside").css("border-right", "1px solid #ccc");
+					$("article#contents").css("border-left", "none");
+				}
+			}
+			
+			$(function() {
+				$(document).BackToTop();
+				resizeAsideArticle();
+			});
+			
+			$( document ).ajaxComplete(function() {
+				resizeAsideArticle();
+			});
+		</script>
+	</body>
+</html>
