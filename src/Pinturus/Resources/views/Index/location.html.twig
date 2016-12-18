@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="{{ app.request.basepath }}/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="{{ app.request.basepath }}/css/dataTables.bootstrap.css"/>
     <link rel="stylesheet" href="{{ app.request.basepath }}/js/datatables-responsive-master/files/1.10/css/datatables.responsive.css"/>
+    <link rel="stylesheet" href="{{ app.request.basepath }}/js/leaflet/leaflet.css"/>
 {% endblock %}
 {% block script_additional %}
 	<script src="{{ app.request.basepath }}/js/datatables-responsive-master/files/1.10/js/datatables.responsive.js"></script>
 	<script src="{{ app.request.basepath }}/js/DataTables-1.10.0/media/js/jquery.dataTables.js" type="text/javascript"></script>
 	<script src="{{ app.request.basepath }}/js/datatables.extension.js" type="text/javascript"></script>
+	<script src="{{ app.request.basepath }}/js/leaflet/leaflet.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(function ()
 		{
@@ -31,13 +33,50 @@
 				"sAjaxSource": "{{ path('location_painting_datatables', {'locationId' : entity.id }) }}",
 				"autoWidth": false
 			});
-		});
+
+			var map = L.map('map').setView([{{ entity.latitude }}, {{ entity.longitude }}], 18);
+
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			L.marker([{{ entity.latitude }}, {{ entity.longitude }}]).addTo(map)
+				.bindPopup('<span class="bold">{{ entity.title }}</span><br>{{ entity.address }}');
+				});
 	</script>
 {% endblock %}
 
 {% block main_title %}{{ entity.title }}{% endblock %}
 
 {% block main_content %}
+	<p class="center">{{ ("photo/location/"~entity.photo)|max_size_image(app.request.basepath) }}</p>
+	<br>
+	{{ entity.text|raw }}
+	<table class="show">
+		<tr>
+			<th><span class="bold">Adresse : </span></th>
+			<td>{{ entity.address }}</td>
+		</tr>
+		<tr>
+			<th><span class="bold">Ville : </span></th>
+			<td>{{entity.city.title }} ({{ entity.city.id|country_by_city }})</td>
+		</tr>
+		<tr>
+			<th><span class="bold">Latitude : </span></th>
+			<td>{{ entity.latitude }}</td>
+		</tr>
+		<tr>
+			<th><span class="bold">Longitude : </span></th>
+			<td>{{ entity.longitude }}</td>
+		</tr>
+		<tr>
+			<th><span class="bold">Site web : </span></th>
+			<td><a href="{{ entity.officialWebsite }}" alt="">{{ entity.officialWebsite }}</a> <a href="{{ entity.officialWebsite }}" alt="" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+		</tr>
+	</table>
+	<hr>
+	<div id="map" style="height: 300px"></div>
+	<hr>
 	<table class="index_directories display">
 		<thead>
 			<th>Titre</th>

@@ -245,10 +245,10 @@ $app['form.type.extensions'] = $app->share($app->extend('form.type.extensions', 
 // SwiftMailer
 // See http://silex.sensiolabs.org/doc/providers/swiftmailer.html
 $app['swiftmailer.options'] = array(
-	'host' => 'smtp.yopmail.com',
+	'host' => 'smtp.gmail.com',
 	'port' => 465,
-    'username' => 'test@yopmail.com',
-    'password' => '*****',
+    'username' => 'test@gmail.com',
+    'password' => 'test',
     'encryption' => 'ssl'
 );
 

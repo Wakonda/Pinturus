@@ -8,15 +8,6 @@ use Pinturus\Entity\Collection;
 /**
  * Poem repository
  */
-class ContactRepository
+class ContactRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
 }

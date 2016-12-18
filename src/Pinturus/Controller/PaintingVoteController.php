@@ -5,7 +5,6 @@ namespace Pinturus\Controller;
 use Pinturus\Entity\PaintingVote;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\Response;
 
 class PaintingVoteController

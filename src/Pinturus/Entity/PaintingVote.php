@@ -2,7 +2,7 @@
 
 namespace Pinturus\Entity;
 
-class PoemVote
+class PaintingVote
 {
     /**
      *
@@ -18,13 +18,13 @@ class PoemVote
 
     /**
      *
-     * @var \Poetic\Entity\Poem
+     * @var \Pinturus\Entity\Painting
      */
-    protected $poem;
+    protected $painting;
 
     /**
      *
-     * @var \Poetic\Entity\User
+     * @var \Pinturus\Entity\User
      */
     protected $user;
 
@@ -58,13 +58,13 @@ class PoemVote
         $this->user = $user;
     }
 
-    public function getPoem()
+    public function getPainting()
     {
-        return $this->poem;
+        return $this->painting;
     }
 
-    public function setPoem($poem)
+    public function setPainting($painting)
     {
-        $this->poem = $poem;
+        $this->painting = $painting;
     }
 }

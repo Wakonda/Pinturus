@@ -1,6 +1,3 @@
-<script src="{{ app.request.basepath }}/js/Trumbowyg/dist/trumbowyg.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="{{ app.request.basepath }}/js/Trumbowyg/dist/langs/fr.min.js"></script>
-<link rel="stylesheet" href="{{ app.request.basepath }}/js/Trumbowyg/dist/ui/trumbowyg.min.css" type="text/css" media="screen" />
 <script type="text/javascript">
 	$(function()
 	{
@@ -17,9 +14,7 @@
 				success: function(data)
 				{
 					$("#form_comment_container").html(data);
-					setWysiwyg();
 					loadComments();
-					$('#comment_text').trumbowyg('empty');
 				}
 			});
 			event.preventDefault();
@@ -54,29 +49,47 @@
 
 			event.preventDefault();
 		});
-		
-		setWysiwyg();
+
 		loadComments();
-		
-		function setWysiwyg() {
-			$("#comment_text").trumbowyg({
-				lang: 'fr',
-				btns: ['bold', 'italic', 'underline', '|', 'link', '|', 'formatting', '|', 'insertImage']
-			});
-		}
 	});
 </script>
 
 <div class="hidden_print">
 	<hr>
 	<h2>Commentaires</h2>
+	<div>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#facebook_comment" aria-controls="facebook_comment" role="tab" data-toggle="tab">Facebook</a></li>
+			<li role="presentation"><a href="#pinturus_comment" aria-controls="pinturus_comment" role="tab" data-toggle="tab">Pinturus</a></li>
+		</ul>
 
-	{% if is_granted('IS_AUTHENTICATED_FULLY') == false and is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
-		<p><i class="fa fa-exclamation-triangle"></i> Vous devez être connecté pour pouvoir écrire un commentaire</p>
-	{% endif %}
-	<div id="form_comment_container">
-		{% include "Comment/form.html.twig" with {'form' : form} %}
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<br>
+			<div role="tabpanel" class="tab-pane active" id="facebook_comment">
+				<div id="fb-root"></div>
+				<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.6&appId=278784339126616";
+				  fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
+				
+				<div class="fb-comments" data-href="{{ current_url(app.request.server) }}" data-numposts="5"></div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="pinturus_comment">
+				<br>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') == false and is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
+					<p><i class="fa fa-exclamation-triangle"></i> Vous devez être connecté pour pouvoir écrire un commentaire</p>
+				{% endif %}
+				<div id="form_comment_container">
+					{% include "Comment/form.html.twig" with {'form' : form} %}
+				</div>
+				<br>
+				<div id="list_comments"></div>
+			</div>
+		</div>
 	</div>
-	<br>
-	<div id="list_comments"></div>
-</h2>
+</div>

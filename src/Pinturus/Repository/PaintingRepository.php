@@ -8,18 +8,8 @@ use Pinturus\Entity\Painting;
 /**
  * Painting repository
  */
-class PaintingRepository
+class PaintingRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-	
 	public function save($entity, $id = null)
 	{
 		$entityData = array(
@@ -52,19 +42,6 @@ class PaintingRepository
         $data = $this->db->fetchAssoc('SELECT * FROM painting WHERE id = ?', array($id));
 
         return $data ? $this->build($data, $show) : null;
-    }
-
-    public function findByTable($id, $table, $field = null)
-    {
-		if(empty($id))
-			return null;
-			
-        $data = $this->db->fetchAssoc('SELECT * FROM '.$table.' WHERE id = ?', array($id));
-
-		if(empty($field))
-			return $data;
-		else
-			return $data[$field];
     }
 
 	public function findIndexSearch($iDisplayStart, $iDisplayLength, $sortByColumn, $sortDirColumn, $datasObject, $count = false)
@@ -125,8 +102,7 @@ class PaintingRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -163,10 +139,8 @@ class PaintingRepository
 		}
 		if($count)
 		{
-			$countRows = $this->db->executeQuery("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			$result = $countRows->fetch();
-
-			return $result["count"];
+			$countRows = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
+			return $data['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -199,10 +173,8 @@ class PaintingRepository
 		}
 		if($count)
 		{
-			$countRows = $this->db->executeQuery("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			$result = $countRows->fetch();
-
-			return $result["count"];
+			$countRows = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
+			return $data['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -233,10 +205,8 @@ class PaintingRepository
 		}
 		if($count)
 		{
-			$countRows = $this->db->executeQuery("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			$result = $countRows->fetch();
-
-			return $result["count"];
+			$countRows = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
+			return $data['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -267,10 +237,8 @@ class PaintingRepository
 		}
 		if($count)
 		{
-			$countRows = $this->db->executeQuery("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			$result = $countRows->fetch();
-
-			return $result["count"];
+			$data = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
+			return $data['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -284,12 +252,12 @@ class PaintingRepository
 	{
 		$qb = $this->db->createQueryBuilder();
 
-		$qb->select("COUNT(*) AS countRow")
+		$qb->select("id AS row")
 		   ->from("painting", "pt");
 		
-		$count = $qb->execute()->fetchObject();
-		$id = rand(1, $count->countRow);
-		
+		$rows = array_column($qb->execute()->fetchAll(), 'row');
+
+		$id = $rows[array_rand($rows)];
 		$qb = $this->db->createQueryBuilder();
 
 		$qb->select("*")
@@ -320,7 +288,7 @@ class PaintingRepository
         foreach ($dataArray as $data) {
             $entitiesArray[] = $this->build($data, true);
         }
-			
+		// die(var_dump($entitiesArray));
 		return $entitiesArray;
 	}
 	
@@ -331,16 +299,16 @@ class PaintingRepository
 		$qbPainting->select("COUNT(*) AS count_painting")
 			   ->from("painting", "pt");
 		
-		$resultPainting = $qbPainting->execute()->fetchAll();
+		$resultPainting = $qbPainting->execute()->fetchColumn();
 		
 		$qbBio = $this->db->createQueryBuilder();
 
 		$qbBio->select("COUNT(*) AS count_biography")
 		      ->from("biography", "bp");
 		
-		$resultBio = $qbBio->execute()->fetchAll();
+		$resultBio = $qbBio->execute()->fetchColumn();
 		
-		return array("count_painting" => $resultPainting[0]["count_painting"], "count_biography" => $resultBio[0]["count_biography"]);
+		return array("count_painting" => $resultPainting, "count_biography" => $resultBio);
 	}
 
 	protected function build($data, $show = false)
@@ -398,8 +366,7 @@ class PaintingRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -418,7 +385,7 @@ class PaintingRepository
 	{
 		$qb = $this->db->createQueryBuilder();
 
-		$qb->select("COUNT(*) AS number")
+		$qb->select("COUNT(*) AS count")
 		   ->from("painting", "pf")
 		   ->where("pf.title = :title")
 		   ->setParameter('title', $entity->getTitle());
@@ -428,9 +395,9 @@ class PaintingRepository
 			$qb->andWhere("pf.id != :id")
 			   ->setParameter("id", $entity->getId());
 		}
+
 		$results = $qb->execute()->fetchAll();
-		
-		return $results[0]["number"];
+		return $results[0]["count"];
 	}
 
 	public function browsingPaintingShow($params, $poemId)
@@ -487,9 +454,7 @@ class PaintingRepository
 		if($count)
 		{
 			$qb->select("COUNT(DISTINCT pf.id) AS count");
-			$results = $qb->execute()->fetch();
-
-			return $results["count"];
+			return $qb->execute()->rowCount();
 		}
 		else
 		{
@@ -518,8 +483,7 @@ class PaintingRepository
 		   ->from("painting", "pf")
 		   ->innerjoin("pf", "biography", "bi", "pf.biography_id = bi.id")
 		   ->where("bi.country_id = :id")
-		   ->setParameter("id", $countryId)
-		   ;
+		   ->setParameter("id", $countryId);
 		
 		if(!empty($sortDirColumn))
 		   $qb->orderBy($aColumns[$sortByColumn[0]], $sortDirColumn[0]);
@@ -533,8 +497,7 @@ class PaintingRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -569,8 +532,7 @@ class PaintingRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -605,8 +567,7 @@ class PaintingRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);

@@ -18,7 +18,7 @@
 		</tr>
 		<tr>
 			<th>{{ form_label(form.file) }}</th>
-			<td><p>Fichier actuel : {{ entity.file }}</p><div class="errors">{{ form_errors(form.file) }}</div>{{ form_widget(form.photo) }}</td>
+			<td><div class="errors">{{ form_errors(form.file) }}</div><p>Fichier actuel : {{ entity.file }}</p>{{ form_widget(form.photo) }}</td>
 		</tr>
 	</table>
 	<hr />

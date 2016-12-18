@@ -8,18 +8,8 @@ use Pinturus\Entity\Location;
 /**
  * Location repository
  */
-class LocationRepository
+class LocationRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
 	public function save($entity, $id = null)
 	{
 		$entityData = array(
@@ -50,19 +40,6 @@ class LocationRepository
 
         return $data ? $this->build($data, $show) : null;
     }
-	
-    public function findByTable($id, $table, $field = null)
-    {
-		if(empty($id))
-			return null;
-			
-        $data = $this->db->fetchAssoc('SELECT * FROM '.$table.' WHERE id = ?', array($id));
-
-		if(empty($field))
-			return $data;
-		else
-			return $data[$field];
-    }
 
 	public function getDatatablesForIndex($iDisplayStart, $iDisplayLength, $sortByColumn, $sortDirColumn, $sSearch, $count = false)
 	{
@@ -85,8 +62,7 @@ class LocationRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -148,7 +124,7 @@ class LocationRepository
 	{
 		$qb = $this->db->createQueryBuilder();
 
-		$qb->select("COUNT(*) AS number")
+		$qb->select("COUNT(*) AS count")
 		   ->from("location", "pf")
 		   ->where("pf.title = :title")
 		   ->setParameter('title', $entity->getTitle());
@@ -158,8 +134,22 @@ class LocationRepository
 			$qb->andWhere("pf.id != :id")
 			   ->setParameter("id", $entity->getId());
 		}
-		$results = $qb->execute()->fetchAll();
 		
-		return $results[0]["number"];
+		return $qb->execute()->fetchColumn();
+	}
+	
+	public function getCountryByCityId($cityId)
+	{
+		$qb = $this->db->createQueryBuilder();
+		
+		$qb->select('*')
+		   ->from("location", "lo")
+		   ->leftjoin("lo", "city", "ci", "lo.city_id = ci.id")
+		   ->leftjoin("ci", "country", "co", "ci.country_id = co.id")
+		   ->where("lo.city_id = :cityId")
+		   ->setParameter("cityId", $cityId)
+		   ->setMaxResults(1);
+		   
+		return $qb->execute()->fetch();
 	}
 }

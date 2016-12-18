@@ -8,18 +8,8 @@ use Pinturus\Entity\PaintingVote;
 /**
  * PaintingVote repository
  */
-class PaintingVoteRepository
+class PaintingVoteRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
 	public function save($entity, $id = null)
 	{
 		// die(var_dump($entity->getUser()->getId()));
@@ -79,8 +69,7 @@ class PaintingVoteRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -110,18 +99,5 @@ class PaintingVoteRepository
 		}
 
         return $entity;
-    }
-
-    public function findByTable($id, $table, $field = null)
-    {
-		if(empty($id))
-			return null;
-			
-        $data = $this->db->fetchAssoc('SELECT * FROM '.$table.' WHERE id = ?', array($id));
-
-		if(empty($field))
-			return $data;
-		else
-			return $data[$field];
     }
 }

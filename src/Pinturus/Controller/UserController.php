@@ -115,7 +115,7 @@ class UserController implements ControllerProviderInterface
 		
 			$mailer = new MailerPinturus($app['swiftmailer.options']);
 			$mailer->setBody($body);
-			$mailer->setSubject("Poéticus - Inscription");
+			$mailer->setSubject("Pinturus - Inscription");
 			$mailer->setSendTo($entity->getEmail());
 		
 			$mailer->send();
@@ -247,7 +247,7 @@ class UserController implements ControllerProviderInterface
 	
 		$mailer = new MailerPinturus($app['swiftmailer.options']);
 		$mailer->setBody($body);
-		$mailer->setSubject("Poéticus - Mot de passe oublié");
+		$mailer->setSubject("Pinturus - Mot de passe oublié");
 		$mailer->setSendTo($entity->getEmail());
 	
 		$mailer->send();

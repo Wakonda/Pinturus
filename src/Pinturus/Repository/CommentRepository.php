@@ -8,18 +8,8 @@ use Pinturus\Entity\Comment;
 /**
  * Comment repository
  */
-class CommentRepository
+class CommentRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
 	public function save($entity, $id = null)
 	{
 		$entityData = array(
@@ -89,9 +79,7 @@ class CommentRepository
 		   ->where('c.painting_id = :paintingId')
 		   ->setParameter('paintingId', $paintingId);
 
-		$result = $qb->execute()->fetch();
-
-		return $result["count"];
+		return $qb->execute()->fetchColumn();
 	}
 	
 	public function displayComments($paintingId, $max_comment_by_page, $first_message_to_display)
@@ -117,19 +105,6 @@ class CommentRepository
 
 		return $entitiesArray;
 	}
-
-    public function findByTable($id, $table, $field = null)
-    {
-		if(empty($id))
-			return null;
-			
-        $data = $this->db->fetchAssoc('SELECT * FROM '.$table.' WHERE id = ?', array($id));
-
-		if(empty($field))
-			return $data;
-		else
-			return $data[$field];
-    }
 
 	public function findCommentByUser($iDisplayStart, $iDisplayLength, $sortByColumn, $sortDirColumn, $sSearch, $username, $count = false)
 	{
@@ -157,14 +132,11 @@ class CommentRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
 
-		$dataArray = $qb->execute()->fetchAll();
-
-		return $dataArray;
+		return $qb->execute()->fetchAll();
 	}
 }

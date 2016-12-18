@@ -72,11 +72,21 @@ $app->get('/bylocations', 'controllers.index:byLocationsAction')
 $app->get('/bylocations_datatables', 'controllers.index:byLocationsDatatablesAction')
     ->bind('bylocations_datatables');
 
+$app->get('/page/{name}', 'controllers.index:pageAction')
+	->bind('page_display');
+
 $app->get('/admin', 'controllers.admin:indexAction')
 	->bind('admin');
 
 $app->get('/country_painting_datatables/{countryId}', 'controllers.index:countryDatatablesAction')
 	->bind('country_painting_datatables');
+
+// CONTACT
+$app->get('/contact', 'controllers.contact:indexAction')
+    ->bind('contact');
+
+$app->post('/contact_send', 'controllers.contact:sendAction')
+	->bind('contact_send');
 	
 // SEND PAINTING
 $app->get('send_painting/index/{paintingId}', 'controllers.sendpainting:indexAction')
@@ -294,6 +304,28 @@ $app->get('/admin/painting/edit/{id}', 'controllers.paintingadmin:editAction')
 
 $app->post('/admin/painting/upate/{id}', 'controllers.paintingadmin:updateAction')
     ->bind('paintingadmin_update');
+
+// ADMIN PAGE
+$app->get('/admin/page/index', 'controllers.pageadmin:indexAction')
+    ->bind('pageadmin_index');
+
+$app->get('/admin/page/indexdatatables', 'controllers.pageadmin:indexDatatablesAction')
+    ->bind('pageadmin_indexdatatables');
+
+$app->get('/admin/page/new', 'controllers.pageadmin:newAction')
+    ->bind('pageadmin_new');
+
+$app->post('/admin/page/create', 'controllers.pageadmin:createAction')
+    ->bind('pageadmin_create');
+
+$app->get('/admin/page/show/{id}', 'controllers.pageadmin:showAction')
+    ->bind('pageadmin_show');
+
+$app->get('/admin/page/edit/{id}', 'controllers.pageadmin:editAction')
+    ->bind('pageadmin_edit');
+
+$app->post('/admin/page/upate/{id}', 'controllers.pageadmin:updateAction')
+    ->bind('pageadmin_update');
 
 // ADMIN TYPE
 $app->get('/admin/type/index', 'controllers.typeadmin:indexAction')
