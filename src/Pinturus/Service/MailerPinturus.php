@@ -32,7 +32,7 @@ class MailerPinturus
 		$message = \Swift_Message::newInstance()
 			->setSubject($this->subject)
 			->setTo(array($this->sendTo))
-			->setFrom(array($this->swiftMailerOptions["username"] => "Poéticus"))
+			->setFrom(array($this->swiftMailerOptions["username"] => "Pinturus"))
 			->setBody($this->body, 'text/html');
 			
 		return $mailer->send($message);

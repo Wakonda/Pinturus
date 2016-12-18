@@ -8,18 +8,8 @@ use Pinturus\Entity\User;
 /**
  * User repository
  */
-class UserRepository
+class UserRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
 	public function findAllForChoice()
 	{
 		$qb = $this->db->createQueryBuilder();
@@ -102,19 +92,6 @@ class UserRepository
         return $entity;
     }
 
-    public function findByTable($id, $table, $field = null)
-    {
-		if(empty($id))
-			return null;
-			
-        $data = $this->db->fetchAssoc('SELECT * FROM '.$table.' WHERE id = ?', array($id));
-
-		if(empty($field))
-			return $data;
-		else
-			return $data[$field];
-    }
-	
 	public function findByUsernameOrEmail($field, $show = false)
 	{
 		$data = $this->db->fetchAssoc('SELECT * FROM user WHERE username = ? OR email = ?', array($field, $field));
@@ -126,7 +103,7 @@ class UserRepository
 	{
 		$qb = $this->db->createQueryBuilder();
 
-		$qb->select("COUNT(*) AS number")
+		$qb->select("COUNT(*) AS count")
 		   ->from("user", "pf")
 		   ->where("pf.username = :username")
 		   ->orWhere("pf.email = :email")
@@ -138,13 +115,12 @@ class UserRepository
 			$qb->andWhere("pf.id != :id")
 			   ->setParameter("id", $entity->getId());
 		}
-		$results = $qb->execute()->fetchAll();
-
-		return $results[0]["number"];
+		
+		return $qb->execute()->fetchColumn();
 	}
 
 	public function save($entity, $id = null)
-	{//die(var_dump($entity->getRoles()));
+	{
 		$entityData = array(
 		'username' => $entity->getUsername(),
         'password'  => $entity->getPassword(),
@@ -192,8 +168,7 @@ class UserRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);

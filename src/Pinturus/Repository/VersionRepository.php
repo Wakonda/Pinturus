@@ -8,15 +8,6 @@ use Pinturus\Entity\Collection;
 /**
  * Version repository
  */
-class VersionRepository
+class VersionRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
 }

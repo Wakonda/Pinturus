@@ -25,7 +25,8 @@ class PinturusExtension extends \Twig_Extension
             "text_month"      => new \Twig_Filter_Method($this, "text_month"),
             "max_size_image"  => new \Twig_Filter_Method($this, "maxSizeImage", array('is_safe' => array('html'))),
             "date_letter"  	  => new \Twig_Filter_Method($this, "dateLetter", array('is_safe' => array('html'))),
-            "remove_control_characters"  => new \Twig_Filter_Method($this, "removeControlCharacters")
+            "remove_control_characters"  => new \Twig_Filter_Method($this, "removeControlCharacters"),
+            "country_by_city"  => new \Twig_Filter_Method($this, "getCountryByCity")
         );
     }
 	
@@ -33,7 +34,8 @@ class PinturusExtension extends \Twig_Extension
 		return array(
 			'captcha' => new \Twig_Function_Method($this, 'generateCaptcha'),
 			'gravatar' => new \Twig_Function_Method($this, 'generateGravatar'),
-			'number_version' => new \Twig_Function_Method($this, 'getCurrentVersion')
+			'number_version' => new \Twig_Function_Method($this, 'getCurrentVersion'),
+			'current_url' => new \Twig_Function_Method($this, 'getCurrentURL')
 		);
 	}
 
@@ -89,7 +91,12 @@ class PinturusExtension extends \Twig_Extension
 		return $day." ".$month." ".$date->format("Y");
 	}
 	
-	// public function getCountryById($id)
+	public function getCountryByCity($id)
+	{
+		$country = $this->app['repository.location']->getCountryByCityId($id);
+		
+		return (isset($country["title"])) ? $country["title"] : null;
+	}
 
 	public function removeControlCharacters($string)
 	{
@@ -121,5 +128,10 @@ class PinturusExtension extends \Twig_Extension
 	public function getCurrentVersion()
 	{
 		return $this->app['repository.version']->getCurrentVersion();
+	}
+
+	public function getCurrentURL($server)
+	{
+		return $server->get("REQUEST_SCHEME").'://'.$server->get("SERVER_NAME").$server->get("REQUEST_URI");
 	}
 }

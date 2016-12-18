@@ -8,16 +8,18 @@
 	{% endif %}
 {% endif %}
 
-{% set authorPoem = (entity.isBiography()) ? entity.biography.title : entity.user.username %}
+{% set authorPainting = entity.biography.title %}
 
-<p>{{ senderName }} (<a href="mailto:{{ entity.recipientMail }}">{{ entity.recipientMail }}</a>) vous a envoyé ce poème écrit par <b>{{ authorPoem }}</b> et intitulé <u><i>{{ entity.title }}</i></u>.</p>
+<p>{{ senderName }} (<a href="mailto:{{ data.yourMail }}">{{ data.yourMail }}</a>) vous a envoyé cette peinture réalisée par <b>{{ authorPainting }}</b> et intitulée <u><i>{{ entity.title }}</i></u>.</p>
 
 {{ data.message|raw }}
 
 <hr>
-
+<img src="{{ app.request.uri}}photo/painting/{{ entity.photo }}" />
+<br>
+<br>
 {{ entity.text|raw }}
 
 <hr>
 
-<p>Ce poème a été envoyé depuis <a href="" alt="Pinturus">Pinturus</a></p>
+<p>Cette peinture a été envoyée depuis <a href="" alt="Pinturus">Pinturus</a></p>

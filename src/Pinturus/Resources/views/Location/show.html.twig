@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<th>Photo</th>
-			<td><p class="center">{{ ("photo/biography/"~entity.photo)|max_size_image(app.request.basepath) }}</p></td>
+			<td><p class="center">{{ ("photo/location/"~entity.photo)|max_size_image(app.request.basepath) }}</p></td>
 		</tr>
 		<tr>
 			<th>Adresse</th>
@@ -31,7 +31,7 @@
 		</tr>
 		<tr>
 			<th>Site web officiel</th>
-			<td>{{ entity.officialWebsite }}</td>
+			<td><a href="{{ entity.officialWebsite }}" alt="">{{ entity.officialWebsite }}</a></td>
 		</tr>
 		<tr>
 			<th>Ville</th>

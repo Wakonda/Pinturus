@@ -8,18 +8,8 @@ use Pinturus\Entity\Type;
 /**
  * Type repository
  */
-class TypeRepository
+class TypeRepository extends GenericRepository
 {
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
 	public function save($entity, $id = null)
 	{
 		$entityData = array(
@@ -67,8 +57,7 @@ class TypeRepository
 		if($count)
 		{
 			$qb->select("COUNT(*) AS count");
-			$results = $qb->execute()->fetchAll();
-			return $results[0]["count"];
+			return $qb->execute()->fetchColumn();
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -117,7 +106,7 @@ class TypeRepository
 	{
 		$qb = $this->db->createQueryBuilder();
 
-		$qb->select("COUNT(*) AS number")
+		$qb->select("COUNT(*) AS count")
 		   ->from("type", "pf")
 		   ->where("pf.title = :title")
 		   ->setParameter('title', $entity->getTitle());
@@ -127,8 +116,7 @@ class TypeRepository
 			$qb->andWhere("pf.id != :id")
 			   ->setParameter("id", $entity->getId());
 		}
-		$results = $qb->execute()->fetchAll();
-		
-		return $results[0]["number"];
+
+		return $qb->execute()->fetchColumn();
 	}
 }

@@ -24,11 +24,9 @@ class SendPaintingController
 	
 	public function sendAction(Request $request, Application $app, $paintingId)
 	{
-		$sendPoemForm = new SendPoemType();
-		
 		parse_str($request->request->get('form'), $form_array);
 
-        $form = $app['form.factory']->create(SendPoemType::class, $form_array);
+        $form = $app['form.factory']->create(SendPaintingType::class, $form_array);
 		
 		$form->handleRequest($request);
 
@@ -36,7 +34,7 @@ class SendPaintingController
 		{
 			$data = (object)($request->request->get($form->getName()));
 			$entity = $app['repository.painting']->find($paintingId, true);
-			
+		
 			$content = $app['twig']->render('Index/send_painting_message_content.html.twig', array(
 				"data" => $data,
 				"entity" => $entity

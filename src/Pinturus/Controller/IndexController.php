@@ -20,7 +20,7 @@ require_once __DIR__.'/../../simple_html_dom.php';
 
 class IndexController
 {
-    public function indexAction(Request $request, Application $app, $test="rr")
+    public function indexAction(Request $request, Application $app)
     {
 		$form = $this->createForm($app, null);
 		$random = $app['repository.painting']->getRandomPainting();
@@ -112,11 +112,9 @@ class IndexController
 		return $response;
 	}
 
-	public function lastPoemAction(Request $request, Application $app)
+	public function lastPaintingAction(Request $request, Application $app)
     {
 		$entities = $app['repository.painting']->getLastEntries();
-
-		$app['locale'] = $app['request']->getLocale();
 
 		return $app['twig']->render('Index/lastPainting.html.twig', array('entities' => $entities));
     }
@@ -124,8 +122,6 @@ class IndexController
 	public function statPaintingAction(Request $request, Application $app)
     {
 		$statistics = $app['repository.painting']->getStat();
-		
-		$app['locale'] = $app['request']->getLocale();
 
 		return $app['twig']->render('Index/statPainting.html.twig', array('statistics' => $statistics));
     }
@@ -582,6 +578,13 @@ class IndexController
 		$response->headers->set('Content-Type', 'application/json');
 
 		return $response;
+	}
+
+	public function pageAction(Request $request, Application $app, $name)
+	{
+		$entity = $app['repository.page']->findByName($name);
+		
+		return $app['twig']->render('Index/page.html.twig', array("entity" => $entity));
 	}
 
 	private function createForm($app, $entity)

@@ -4,9 +4,11 @@
 {% block main_title %}Administration - Peinture{% endblock %}
 
 {% block style_additional %}
+	<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/js/redactor/css/redactor.css" />
 {% endblock %}
-
 {% block script_additional %}
+	{% import "index/macro.html.twig" as macro %}
+	{{ macro.redactor() }}
 {% endblock %}
 
 {% block main_content %}
@@ -20,8 +22,8 @@
 		</tr>
 		<tr id="text_container">
 			<th>{{ form_label(form.text) }}</th>
-			<td><div class="errors">{{ form_errors(form.text) }}</div>{{ form_widget(form.text, { 'attr' : { 'class' : 'text form-control' }}) }}</td>
-		</tr>>
+			<td><div class="errors">{{ form_errors(form.text) }}</div>{{ form_widget(form.text, { 'attr' : { 'class' : 'redactor' }}) }}</td>
+		</tr>
 		<tr>
 			<th>{{ form_label(form.yearStart) }}</th>
 			<td><div class="errors">{{ form_errors(form.yearStart) }}</div>{{ form_widget(form.yearStart, {'attr':{'class':'full_width form-control'}}) }}</td>
@@ -32,11 +34,25 @@
 		</tr>
 		<tr>
 			<th>{{ form_label(form.height) }}</th>
-			<td><div class="errors">{{ form_errors(form.height) }}</div>{{ form_widget(form.height, {'attr':{'class':'full_width form-control'}}) }}</td>
+			<td>
+				<div class="errors">
+					{{ form_errors(form.height) }}
+				</div>
+				<div class="input-group">
+				{{ form_widget(form.height, {'attr':{'class':'full_width form-control'}}) }}
+				<div class="input-group-addon">cm</div></div>
+			</td>
 		</tr>
 		<tr>
 			<th>{{ form_label(form.width) }}</th>
-			<td><div class="errors">{{ form_errors(form.width) }}</div>{{ form_widget(form.width, {'attr':{'class':'full_width form-control'}}) }}</td>
+			<td>
+				<div class="errors">
+					{{ form_errors(form.width) }}
+				</div>
+				<div class="input-group">
+				{{ form_widget(form.width, {'attr':{'class':'full_width form-control'}}) }}
+				<div class="input-group-addon">cm</div></div>
+			</td>
 		</tr>
 		<tr id="photo_container">
 			<th>{{ form_label(form.photo) }}</th>

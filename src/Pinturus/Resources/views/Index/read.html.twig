@@ -77,6 +77,10 @@
 
 			style: { classes: 'qtip-tipped' }
 		});
+		
+		$('#send_painting_modal').on('hidden.bs.modal', function () {
+			$("#send_painting_form .errors").remove();
+		});
 	});
 </script>
 {% endblock %}
@@ -102,7 +106,7 @@
 			</tr>
 			<tr>
 				<th>Dimensions</th>
-				<td>{{ entity.width }} X {{ entity.height }}</td>
+				<td>{{ entity.height }} cm x {{ entity.width }} cm</td>
 			</tr>
 			<tr>
 				<th>Lieu</th>

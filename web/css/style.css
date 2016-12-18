@@ -825,3 +825,8 @@ td.socialNetwork#googlePlus {
 	-o-filter: brightness(0.6);
 	-ms-filter: brightness(0.6);
 }
+
+/******* MAP ********/
+#map img {
+	border: 0 !important;
+}

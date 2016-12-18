@@ -7,19 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/js/redactor/css/redactor.css" />
 {% endblock %}
 {% block script_additional %}
-	<script src="{{ app.request.basepath }}/js/redactor/redactor.min.js"></script>
-	<script type="text/javascript">
-		$(function()
-		{
-			$('.redactor').redactor({
-				autoresize: false,
-				minHeight: 300,
-				buttons: ['html', '|', 'bold', 'italic', 'deleted', 'underline', '|',
-				'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
-				'image', 'video', 'file', 'table', 'link', '|', 'fontcolor', 'backcolor', '|', 'alignment', 'aligncenter', 'alignright', 'justify', '|', 'horizontalrule']
-			});
-		});
-	</script>
+	{% import "index/macro.html.twig" as macro %}
+	{{ macro.redactor() }}
 {% endblock %}
 
 {% block main_content %}
@@ -41,19 +30,19 @@
 		</tr>
 		<tr>
 			<th>{{ form_label(form.address) }}</th>
-			<td><div class="errors">{{ form_errors(form.address) }}</div>{{ form_widget(form.address) }}</td>
+			<td><div class="errors">{{ form_errors(form.address) }}</div>{{ form_widget(form.address, {'attr':{'class':'full_width form-control'}}) }}</td>
 		</tr>
 		<tr>
 			<th>{{ form_label(form.latitude) }}</th>
-			<td><div class="errors">{{ form_errors(form.latitude) }}</div>{{ form_widget(form.latitude) }}</td>
+			<td><div class="errors">{{ form_errors(form.latitude) }}</div>{{ form_widget(form.latitude, {'attr':{'class':'full_width form-control'}}) }}</td>
 		</tr>
 		<tr>
 			<th>{{ form_label(form.longitude) }}</th>
-			<td><div class="errors">{{ form_errors(form.longitude) }}</div>{{ form_widget(form.longitude) }}</td>
+			<td><div class="errors">{{ form_errors(form.longitude) }}</div>{{ form_widget(form.longitude, {'attr':{'class':'full_width form-control'}}) }}</td>
 		</tr>
 		<tr>
 			<th>{{ form_label(form.officialWebsite) }}</th>
-			<td><div class="errors">{{ form_errors(form.officialWebsite) }}</div>{{ form_widget(form.officialWebsite) }}</td>
+			<td><div class="errors">{{ form_errors(form.officialWebsite) }}</div>{{ form_widget(form.officialWebsite, {'attr':{'class':'full_width form-control'}}) }}</td>
 		</tr>
 		<tr>
 			<th>{{ form_label(form.city) }}</th>

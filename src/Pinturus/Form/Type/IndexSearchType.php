@@ -20,7 +20,7 @@ class IndexSearchType extends AbstractType
 	
         $builder
             ->add('title', TextType::class, array("label" => "Titre", "required" => false))
-			->add('text', TextareaType::class, array("label" => "Mots-clés", "required" => false, "attr" => array("class" => "tagit full_width")))
+			->add('text', TextType::class, array("label" => "Mots-clés", "required" => false, "attr" => array("class" => "tagit full_width")))
 			->add('author', TextType::class, array("label" => "Auteur", "required" => false))
 			->add('country', ChoiceType::class, array(
 											'label' => 'Pays', 
