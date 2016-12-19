@@ -4,7 +4,7 @@
 {% block main_title %}Administration - Biographie{% endblock %}
 
 {% block style_additional %}
-	<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/js/redactor/css/redactor.css" />
+	<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/js/redactor/css/redactor.css" />
 {% endblock %}
 {% block script_additional %}
 	{% import "index/macro.html.twig" as macro %}

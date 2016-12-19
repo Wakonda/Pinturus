@@ -17,7 +17,7 @@ class SendPaintingController
     {
 		$form = $app['form.factory']->create(SendPaintingType::class, null);
 		
-		$app['locale'] = $app['request']->getLocale();
+		$app['locale'] = $request->getLocale();
 
         return $app['twig']->render('Index/send_painting.html.twig', array('form' => $form->createView(), 'paintingId' => $paintingId));
     }

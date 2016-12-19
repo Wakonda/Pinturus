@@ -15,7 +15,7 @@
 {{ data.message|raw }}
 
 <hr>
-<img src="{{ app.request.uri}}photo/painting/{{ entity.photo }}" />
+<img src="{{ app.request_stack.currentrequest.uri}}photo/painting/{{ entity.photo }}" />
 <br>
 <br>
 {{ entity.text|raw }}

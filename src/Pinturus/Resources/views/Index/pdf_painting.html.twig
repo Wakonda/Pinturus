@@ -52,7 +52,7 @@
 
 <h1>{{ entity.title }}</h1>
 <br />
-<p class="center">{{ ("photo/painting/"~entity.photo)|max_size_image(app.request.basepath, [], true) }}</p>
+<p class="center">{{ ("photo/painting/"~entity.photo)|max_size_image(app.request_stack.currentrequest.basepath, [], true) }}</p>
 <br>
 <div>
 	<h3>Présentation</h3>

@@ -24,7 +24,7 @@ class Captcha
 
 	public function generate($word)
 	{
-		$request = $this->app['request'];
+		$request = $this->app['request_stack']->getCurrentrequest();
 		
 		$size = 80;
 		$margin = 60;
