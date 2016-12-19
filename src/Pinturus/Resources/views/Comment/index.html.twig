@@ -77,7 +77,7 @@
 				  fjs.parentNode.insertBefore(js, fjs);
 				}(document, 'script', 'facebook-jssdk'));</script>
 				
-				<div class="fb-comments" data-href="{{ current_url(app.request.server) }}" data-numposts="5"></div>
+				<div class="fb-comments" data-href="{{ current_url(app.request_stack.currentrequest.server) }}" data-numposts="5"></div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="pinturus_comment">
 				<br>

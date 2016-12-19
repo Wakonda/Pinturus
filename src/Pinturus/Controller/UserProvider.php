@@ -4,7 +4,6 @@ namespace Pinturus\Controller;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-// use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Doctrine\DBAL\Connection;
@@ -41,7 +40,6 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        // return $class === 'Symfony\Component\Security\Core\User\User';
         return $class === 'Pinturus\Entity\User';
     }
 }

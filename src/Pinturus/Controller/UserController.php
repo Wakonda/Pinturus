@@ -12,7 +12,7 @@ use Pinturus\Service\MailerPinturus;
 use Pinturus\Service\PasswordHash;
 
 use Silex\Application;
-use Silex\ControllerProviderInterface;
+use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
@@ -22,7 +22,11 @@ class UserController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-		$request = $app['request'];
+					$encoder = new MessageDigestPasswordEncoder();
+			$test = $encoder->isPasswordValid("yxETjbQAr+Qf0opoBJtGuHeOY/EiMW4UACwrCUQkzfUC+ukXRYiW/qYiK7FXaeqNnPEKrUYD0Wt9fWEYD/US4Q==", "nMW+CS0E", "sha256:1000:GSJvHhmzhOHHe/U5n79GRjLpHezuhHTJ:Sv2t8UxczD5zGIXqufDm5/D98mdBmukT");
+		// die(var_dump($encoder));
+		
+		$request = $app['request_stack']->getCurrentrequest();
 
 		if($request->query->get("t") != null)
 		{
@@ -39,8 +43,7 @@ class UserController implements ControllerProviderInterface
 			else
 				$app['session']->getFlashBag()->add('expired_login', 'Désolé '.$entity->getUsername(). ', votre compte ne peut pas être activé, puisque le lien est expiré.');
 		}
-		
-		
+		// die(var_dump($app['security.last_error']($request)));
 		return $app['twig']->render('User/login.html.twig', array(
 				// 'error'         => "Pseudo ou mot de passe erroné"/*$app['security.last_error']($request)*/,
 				'error'         => $app['security.last_error']($request),

@@ -9,18 +9,26 @@
 		<meta name="robots" content="index,follow" />
 		{% endblock %}
 
-		<link rel="shortcut icon" href="{{ app.request.getUriForPath('/') }}photo/favicon.jpg">
-		<link rel="alternate" href="{{ app.request.getUriForPath('/') }}" hreflang="fr-fr" />
+		<link rel="shortcut icon" href="{{ app.request_stack.currentrequest.getUriForPath('/') }}photo/favicon.jpg">
+		<link rel="alternate" href="{{ app.request_stack.currentrequest.getUriForPath('/') }}" hreflang="fr-fr" />
 		<title>Pinturus - {% block head_title %}{% endblock %}</title>
-		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/style.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/style_print.css" media="print" />
-		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/bootstrap-3.3.2-dist/css/bootstrap.min.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/font-awesome/css/font-awesome.min.css" />
-		<link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/js/BackToTop/BackToTop.css" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/style.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/style_print.css" media="print" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/bootstrap-3.3.2-dist/css/bootstrap.min.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/js/BackToTop/BackToTop.css" />
 		
-		<script src="{{ app.request.basepath }}/js/jquery.js"></script>
-		<script src="{{ app.request.basepath }}/js/cookiechoices/cookiechoices.js"></script>
+		<script src="{{ app.request_stack.currentrequest.basepath }}/js/jquery.js"></script>
+		<script src="{{ app.request_stack.currentrequest.basepath }}/js/cookiechoices/cookiechoices.js"></script>
 
+		<script type="text/javascript">
+			$(function() {
+				cookieChoices.showCookieBar({
+					linkHref: '{{ path("page_display", {"name" : "cookie"}) }}',
+					language: 'fr'
+				});
+			});
+		</script>
 		{% block script_additional %}
 		{% endblock %}
 		
@@ -37,7 +45,7 @@
 				<hgroup id="title">
 					<div id="logo">
 						<a href="{{ path('index') }}" alt="">
-							<img src="{{ app.request.basepath }}/photo/favicon.jpg" alt="logo" />
+							<img src="{{ app.request_stack.currentrequest.basepath }}/photo/favicon.jpg" alt="logo" />
 							<span>Pinturus</span>
 						</a>
 					</div>
@@ -62,7 +70,7 @@
 				<aside id="sidebar-wrapper">
 					<nav class="sidebar">
 						<h1>Publications récentes</h1>
-						{{ render(app.request.baseUrl ~ '/last_painting') }}
+						{{ render(app.request_stack.currentrequest.baseUrl ~ '/last_painting') }}
 						<span class="follow_on_twitter"><a href="https://twitter.com/poeticus12" class="twitter-follow-button" data-show-count="false" data-lang="fr" data-size="large" data-dnt="true">Suivre @poeticus12</a>
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span>
 					</nav>
@@ -81,7 +89,7 @@
 					</nav>
 					<nav class="sidebar">
 						<h1>Statistiques</h1>
-						{{ render(app.request.baseUrl ~ '/stat_painting') }}
+						{{ render(app.request_stack.currentrequest.baseUrl ~ '/stat_painting') }}
 					</nav>
 
 					<nav class="sidebar">
@@ -110,7 +118,7 @@
 						<h1>{% block main_title %}Bienvenue sur Pinturus{% endblock %}</h1>
 					</header>
 					
-					{% for message in app.session.getFlashBag.get('message') %}
+					{% for message in global.session.getFlashBag.get('message') %}
 						<div class="success">{{ message }}</div>
 					{% endfor %}
 					
@@ -142,8 +150,8 @@
 			<!-- Footer Element Ends Here -->
 		</div>
 		<!-- Div Wrapper Element ends Here -->
-		<script src="{{ app.request.basepath }}/css/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
-		<script src="{{ app.request.basepath }}/js/BackToTop/BackToTop.js"></script>
+		<script src="{{ app.request_stack.currentrequest.basepath }}/css/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+		<script src="{{ app.request_stack.currentrequest.basepath }}/js/BackToTop/BackToTop.js"></script>
 		<script>
 			// Resize "aside" and "article" tags
 			function resizeAsideArticle() {
