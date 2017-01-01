@@ -240,6 +240,11 @@ $app["controllers.sendpainting"] = function($app) {
 	return new Pinturus\Controller\SendPaintingController();
 };
 
+// Register Services
+$app['generic_function'] = function ($app) {
+    return new Poeticus\Service\GenericFunction($app);
+};
+
 // Form extension
 $app['form.type.extensions'] = $app->extend('form.type.extensions', function ($extensions) use ($app) {
     $extensions[] = new Pinturus\Form\Extension\ButtonTypeIconExtension();
