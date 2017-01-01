@@ -85,7 +85,7 @@ class TypeAdminController
 
 		if($form->isValid())
 		{
-			$image = uniqid()."_".$entity->getPhoto()->getClientOriginalName();
+			$image = $app['generic_function']->getUniqCleanNameForFile($entity->getPhoto());
 			$entity->getPhoto()->move("photo/type/", $image);
 			$entity->setPhoto($image);
 			$id = $app['repository.type']->save($entity);
@@ -126,7 +126,7 @@ class TypeAdminController
 		{
 			if(!is_null($entity->getPhoto()))
 			{
-				$image = uniqid()."_".$entity->getPhoto()->getClientOriginalName();
+				$image = $app['generic_function']->getUniqCleanNameForFile($entity->getPhoto());
 				$entity->getPhoto()->move("photo/type/", $image);
 			}
 			else

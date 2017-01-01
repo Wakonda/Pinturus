@@ -85,7 +85,7 @@ class CityAdminController
 
 		if($form->isValid())
 		{
-			$image = uniqid()."_".$entity->getPhoto()->getClientOriginalName();
+			$image = $app['generic_function']->getUniqCleanNameForFile($entity->getPhoto());
 			$entity->getPhoto()->move("photo/city/", $image);
 			$entity->setPhoto($image);
 			$id = $app['repository.city']->save($entity);
@@ -126,7 +126,7 @@ class CityAdminController
 		{
 			if(!is_null($entity->getPhoto()))
 			{
-				$image = uniqid()."_".$entity->getPhoto()->getClientOriginalName();
+				$image = $app['generic_function']->getUniqCleanNameForFile($entity->getPhoto());
 				$entity->getPhoto()->move("photo/city/", $image);
 			}
 			else

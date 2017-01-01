@@ -86,7 +86,7 @@ class VersionAdminController
 
 		if($form->isValid())
 		{
-			$image = uniqid()."_".$entity->getFile()->getClientOriginalName();
+			$image = $app['generic_function']->getUniqCleanNameForFile($entity->getFile());
 			$entity->getFile()->move("photo/version/", $image);
 			$entity->setFile($image);
 			$id = $app['repository.version']->save($entity);
@@ -127,7 +127,7 @@ class VersionAdminController
 		{
 			if(!is_null($entity->getFile()))
 			{
-				$image = uniqid()."_".$entity->getFile()->getClientOriginalName();
+				$image = $app['generic_function']->getUniqCleanNameForFile($entity->getFile());
 				$entity->getPhoto()->move("photo/version/", $image);
 			}
 			else

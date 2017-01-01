@@ -31,15 +31,12 @@ class SymfonyTestsListener extends \PHPUnit_Framework_BaseTestListener
      */
     public function __construct(array $mockedNamespaces = array())
     {
-        $warn = false;
         foreach ($mockedNamespaces as $type => $namespaces) {
             if (!is_array($namespaces)) {
                 $namespaces = array($namespaces);
             }
             if (is_int($type)) {
-                // @deprecated BC with v2.8 to v3.0
                 $type = 'time-sensitive';
-                $warn = true;
             }
             if ('time-sensitive' === $type) {
                 foreach ($namespaces as $ns) {
@@ -51,9 +48,6 @@ class SymfonyTestsListener extends \PHPUnit_Framework_BaseTestListener
             $this->state = -2;
         } else {
             self::$globallyEnabled = true;
-            if ($warn) {
-                echo "Clock-mocked namespaces for SymfonyTestsListener need to be nested in a \"time-sensitive\" key. This will be enforced in Symfony 4.0.\n";
-            }
         }
     }
 
@@ -134,7 +128,7 @@ class SymfonyTestsListener extends \PHPUnit_Framework_BaseTestListener
     public function startTest(\PHPUnit_Framework_Test $test)
     {
         if (-2 < $this->state && $test instanceof \PHPUnit_Framework_TestCase) {
-            $groups = \PHPUnit_Util_Test::getGroups(get_class($test), $test->getName(false));
+            $groups = \PHPUnit_Util_Test::getGroups(get_class($test), $test->getName());
 
             if (in_array('time-sensitive', $groups, true)) {
                 ClockMock::register(get_class($test));
@@ -146,7 +140,7 @@ class SymfonyTestsListener extends \PHPUnit_Framework_BaseTestListener
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
         if (-2 < $this->state && $test instanceof \PHPUnit_Framework_TestCase) {
-            $groups = \PHPUnit_Util_Test::getGroups(get_class($test), $test->getName(false));
+            $groups = \PHPUnit_Util_Test::getGroups(get_class($test), $test->getName());
 
             if (in_array('time-sensitive', $groups, true)) {
                 ClockMock::withClockMock(false);

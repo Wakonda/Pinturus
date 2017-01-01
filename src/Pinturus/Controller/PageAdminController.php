@@ -85,7 +85,7 @@ class PageAdminController
 
 		if($form->isValid())
 		{
-			$image = uniqid()."_".$entity->getPhoto()->getClientOriginalName();
+			$image = $app['generic_function']->getUniqCleanNameForFile($entity->getPhoto());
 			$entity->getPhoto()->move("photo/page/", $image);
 			$entity->setPhoto($image);
 			$id = $app['repository.page']->save($entity);
@@ -126,7 +126,7 @@ class PageAdminController
 		{
 			if(!is_null($entity->getPhoto()))
 			{
-				$image = uniqid()."_".$entity->getPhoto()->getClientOriginalName();
+				$image = $app['generic_function']->getUniqCleanNameForFile($entity->getPhoto());
 				$entity->getPhoto()->move("photo/page/", $image);
 			}
 			else
