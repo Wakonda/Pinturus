@@ -35,7 +35,8 @@ class PinturusExtension extends \Twig_Extension
 			'captcha' => new \Twig_Function_Method($this, 'generateCaptcha'),
 			'gravatar' => new \Twig_Function_Method($this, 'generateGravatar'),
 			'number_version' => new \Twig_Function_Method($this, 'getCurrentVersion'),
-			'current_url' => new \Twig_Function_Method($this, 'getCurrentURL')
+			'current_url' => new \Twig_Function_Method($this, 'getCurrentURL'),
+			'minify_file' => new \Twig_Function_Method($this, 'minifyFile')
 		);
 	}
 
@@ -133,5 +134,11 @@ class PinturusExtension extends \Twig_Extension
 	public function getCurrentURL($server)
 	{
 		return $server->get("REQUEST_SCHEME").'://'.$server->get("SERVER_NAME").$server->get("REQUEST_URI");
+	}
+	
+	public function minifyFile($file, $basePath)
+	{
+		$mn = new MinifyFile($file);
+		return $basePath.'/'.$mn->save();
 	}
 }

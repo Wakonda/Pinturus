@@ -12,11 +12,11 @@
 		<link rel="shortcut icon" href="{{ app.request_stack.currentrequest.getUriForPath('/') }}photo/favicon.jpg">
 		<link rel="alternate" href="{{ app.request_stack.currentrequest.getUriForPath('/') }}" hreflang="fr-fr" />
 		<title>Pinturus - {% block head_title %}{% endblock %}</title>
-		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/style.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/style_print.css" media="print" />
+		<link rel="stylesheet" type="text/css" href="{{ minify_file('css/style.css', app.request_stack.currentrequest.basepath) }}" media="screen" />
+		<link rel="stylesheet" type="text/css" href="{{ minify_file('css/style_print.css', app.request_stack.currentrequest.basepath) }}" media="print" />
 		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/bootstrap-3.3.2-dist/css/bootstrap.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/css/font-awesome/css/font-awesome.min.css" />
-		<link rel="stylesheet" type="text/css" href="{{ app.request_stack.currentrequest.basepath }}/js/BackToTop/BackToTop.css" />
+		<link rel="stylesheet" type="text/css" href="{{ minify_file('js/BackToTop/BackToTop.css', app.request_stack.currentrequest.basepath) }}" />
 		
 		<script src="{{ app.request_stack.currentrequest.basepath }}/js/jquery.js"></script>
 		<script src="{{ app.request_stack.currentrequest.basepath }}/js/cookiechoices/cookiechoices.js"></script>
