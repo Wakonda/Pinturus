@@ -14,6 +14,7 @@ use Pinturus\Service\Gravatar;
 
 use Pinturus\Entity\Poem;
 use Pinturus\Form\Type\PoemUserType;
+use MatthiasMullie\Minify;
 
 require_once __DIR__.'/../../../src/html2pdf_v4.03/Html2Pdf.php';
 require_once __DIR__.'/../../simple_html_dom.php';

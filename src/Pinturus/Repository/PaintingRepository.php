@@ -140,7 +140,7 @@ class PaintingRepository extends GenericRepository
 		if($count)
 		{
 			$countRows = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			return $data['count'];
+			return $countRows['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -174,7 +174,7 @@ class PaintingRepository extends GenericRepository
 		if($count)
 		{
 			$countRows = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			return $data['count'];
+			return $countRows['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
@@ -206,7 +206,7 @@ class PaintingRepository extends GenericRepository
 		if($count)
 		{
 			$countRows = $this->db->fetchAssoc("SELECT COUNT(*) AS count FROM (".$qb->getSql().") AS SQ");
-			return $data['count'];
+			return $countRows['count'];
 		}
 		else
 			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
