@@ -349,6 +349,28 @@ $app->get('/admin/type/edit/{id}', 'controllers.typeadmin:editAction')
 $app->post('/admin/type/upate/{id}', 'controllers.typeadmin:updateAction')
     ->bind('typeadmin_update');
 
+// ADMIN VERSION
+$app->get('/admin/version/index', 'controllers.versionadmin:indexAction')
+    ->bind('versionadmin_index');
+
+$app->get('/admin/version/indexdatatables', 'controllers.versionadmin:indexDatatablesAction')
+    ->bind('versionadmin_indexdatatables');
+
+$app->get('/admin/version/new', 'controllers.versionadmin:newAction')
+    ->bind('versionadmin_new');
+
+$app->post('/admin/version/create', 'controllers.versionadmin:createAction')
+    ->bind('versionadmin_create');
+
+$app->get('/admin/version/show/{id}', 'controllers.versionadmin:showAction')
+    ->bind('versionadmin_show');
+
+$app->get('/admin/version/edit/{id}', 'controllers.versionadmin:editAction')
+    ->bind('versionadmin_edit');
+
+$app->post('/admin/version/upate/{id}', 'controllers.collectionadmin:updateAction')
+    ->bind('versionadmin_update');
+
 // ADMIN CONTACT FORM
 $app->get('/admin/contact/index', 'controllers.contactadmin:indexAction')
     ->bind('contactadmin_index');

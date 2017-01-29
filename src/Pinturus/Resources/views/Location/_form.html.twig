@@ -1,0 +1,38 @@
+{% import "index/macro.html.twig" as macro %}
+<table class="form_grid">
+	<tr>
+		<th>{{ form_label(form.title) }}</th>
+		<td><div class="errors">{{ form_errors(form.title) }}</div>{{ form_widget(form.title, {'attr':{'class':'full_width form-control'}}) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.text) }}</th>
+		<td><div class="errors">{{ form_errors(form.text) }}</div>{{ form_widget(form.text, {'attr':{'class':'redactor'}}) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.photo) }}</th>
+		<td><div class="errors">{{ form_errors(form.photo) }}</div>{% if entity.photo is defined %}{{ macro.currentImage("photo/location/", entity.photo) }}{% endif %}{{ form_widget(form.photo) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.address) }}</th>
+		<td><div class="errors">{{ form_errors(form.address) }}</div>{{ form_widget(form.address, {'attr':{'class':'full_width form-control'}}) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.latitude) }}</th>
+		<td><div class="errors">{{ form_errors(form.latitude) }}</div>{{ form_widget(form.latitude, {'attr':{'class':'full_width form-control'}}) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.longitude) }}</th>
+		<td><div class="errors">{{ form_errors(form.longitude) }}</div>{{ form_widget(form.longitude, {'attr':{'class':'full_width form-control'}}) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.officialWebsite) }}</th>
+		<td><div class="errors">{{ form_errors(form.officialWebsite) }}</div>{{ form_widget(form.officialWebsite, {'attr':{'class':'full_width form-control'}}) }}</td>
+	</tr>
+	<tr>
+		<th>{{ form_label(form.city) }}</th>
+		<td><div class="errors">{{ form_errors(form.city) }}</div>{{ form_widget(form.city, {'attr':{'class':'form-control'}}) }}</td>
+	</tr>
+</table>
+<hr />
+{{ form_widget(form.save, {'icon': 'fa-save'}) }}
+{{ form_rest(form) }}
