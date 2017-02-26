@@ -5,6 +5,8 @@ namespace Pinturus\Repository;
 use Doctrine\DBAL\Connection;
 use Pinturus\Entity\Collection;
 
+use Pinturus\Entity\Contact;
+
 /**
  * Poem repository
  */
@@ -85,5 +87,16 @@ class ContactRepository extends GenericRepository
 	public function readContact($id)
 	{
 		$this->db->update('contact', array("readMessage" => "1"), array('id' => $id));
+	}
+
+	public function countUnreadMessages()
+	{
+		$qb = $this->db->createQueryBuilder();
+		
+		$qb->select("COUNT(*) AS count")
+		   ->from("Contact", "cn")
+		   ->where("cn.readMessage = 0");
+		   
+		return $qb->execute()->fetchColumn();
 	}
 }

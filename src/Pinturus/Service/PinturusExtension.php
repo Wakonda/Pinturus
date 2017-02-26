@@ -36,7 +36,8 @@ class PinturusExtension extends \Twig_Extension
 			'gravatar' => new \Twig_Function_Method($this, 'generateGravatar'),
 			'number_version' => new \Twig_Function_Method($this, 'getCurrentVersion'),
 			'current_url' => new \Twig_Function_Method($this, 'getCurrentURL'),
-			'minify_file' => new \Twig_Function_Method($this, 'minifyFile')
+			'minify_file' => new \Twig_Function_Method($this, 'minifyFile'),
+			'count_unread_messages' => new \Twig_Function_Method($this, 'countUnreadMessagesFunction')
 		);
 	}
 
@@ -129,6 +130,11 @@ class PinturusExtension extends \Twig_Extension
 	public function getCurrentVersion()
 	{
 		return $this->app['repository.version']->getCurrentVersion();
+	}
+
+	public function countUnreadMessagesFunction()
+	{
+		return $this->app['repository.contact']->countUnreadMessages();
 	}
 
 	public function getCurrentURL($server)
