@@ -8,7 +8,7 @@ use Pinturus\Entity\City;
 /**
  * Poem repository
  */
-class CityRepository extends GenericRepository
+class CityRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{

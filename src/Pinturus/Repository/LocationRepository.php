@@ -8,7 +8,7 @@ use Pinturus\Entity\Location;
 /**
  * Location repository
  */
-class LocationRepository extends GenericRepository
+class LocationRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{

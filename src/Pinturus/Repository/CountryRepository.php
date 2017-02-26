@@ -8,7 +8,7 @@ use Pinturus\Entity\Country;
 /**
  * Country repository
  */
-class CountryRepository extends GenericRepository
+class CountryRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{
@@ -109,7 +109,7 @@ class CountryRepository extends GenericRepository
 		return $qb->execute()->fetchColumn();
 	}
 
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new Country();
         $entity->setId($data['id']);

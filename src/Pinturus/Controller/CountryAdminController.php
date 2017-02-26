@@ -77,6 +77,7 @@ class CountryAdminController
 		$entity = new Country();
         $form = $app['form.factory']->create(CountryType::class, $entity);
 		$form->handleRequest($request);
+		$this->checkForDoubloon($entity, $form, $app);
 
 		if($entity->getFlag() == null)
 			$form->get("flag")->addError(new FormError('Ce champ ne peut pas être vide'));
@@ -117,6 +118,7 @@ class CountryAdminController
 		$currentImage = $entity->getFlag();
 		$form = $app['form.factory']->create(CountryType::class, $entity);
 		$form->handleRequest($request);
+		$this->checkForDoubloon($entity, $form, $app);
 		
 		if($form->isValid())
 		{
@@ -137,5 +139,16 @@ class CountryAdminController
 		}
 	
 		return $app['twig']->render('Country/edit.html.twig', array('form' => $form->createView(), 'entity' => $entity));
+	}
+
+	private function checkForDoubloon($entity, $form, $app)
+	{
+		if($entity->getTitle() != null)
+		{
+			$checkForDoubloon = $app['repository.country']->checkForDoubloon($entity);
+
+			if($checkForDoubloon > 0)
+				$form->get("title")->addError(new FormError('Cette entrée existe déjà !'));
+		}
 	}
 }

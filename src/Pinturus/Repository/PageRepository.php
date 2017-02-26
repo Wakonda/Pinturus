@@ -9,7 +9,7 @@ use Pinturus\Entity\Page;
 /**
  * Page repository
  */
-class PageRepository extends GenericRepository
+class PageRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{

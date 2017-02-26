@@ -8,7 +8,7 @@ use Pinturus\Entity\Painting;
 /**
  * Painting repository
  */
-class PaintingRepository extends GenericRepository
+class PaintingRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{
@@ -311,7 +311,7 @@ class PaintingRepository extends GenericRepository
 		return array("count_painting" => $resultPainting, "count_biography" => $resultBio);
 	}
 
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new Painting();
 

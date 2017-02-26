@@ -8,7 +8,7 @@ use Pinturus\Entity\Movement;
 /**
  * Movement repository
  */
-class MovementRepository extends GenericRepository
+class MovementRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{
@@ -72,7 +72,7 @@ class MovementRepository extends GenericRepository
 		return $entitiesArray;
 	}
 
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new Movement();
         $entity->setId($data['id']);

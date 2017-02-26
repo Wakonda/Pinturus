@@ -34,6 +34,11 @@ class Contact
      */
     protected $readMessage;
 
+	public function __construct()
+	{
+		$this->readMessage = 0;
+	}
+
 	/**
      *
      * @var datetime
