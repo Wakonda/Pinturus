@@ -8,7 +8,7 @@ use Pinturus\Entity\User;
 /**
  * User repository
  */
-class UserRepository extends GenericRepository
+class UserRepository extends GenericRepository implements iRepository
 {
 	public function findAllForChoice()
 	{

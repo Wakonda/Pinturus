@@ -8,7 +8,7 @@ use Pinturus\Entity\Type;
 /**
  * Type repository
  */
-class TypeRepository extends GenericRepository
+class TypeRepository extends GenericRepository implements iRepository
 {
 	public function save($entity, $id = null)
 	{
