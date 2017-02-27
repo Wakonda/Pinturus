@@ -8,7 +8,7 @@ use Pinturus\Entity\Collection;
 use Pinturus\Entity\Contact;
 
 /**
- * Poem repository
+ * Contact repository
  */
 class ContactRepository extends GenericRepository
 {
@@ -77,7 +77,7 @@ class ContactRepository extends GenericRepository
         return $entity;
     }
 	
-    public function find($id)
+    public function find($id, $show = false)
     {
         $data = $this->db->fetchAssoc('SELECT * FROM contact WHERE id = ?', array($id));
 

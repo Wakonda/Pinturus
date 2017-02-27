@@ -2,8 +2,6 @@
 
 namespace Pinturus\Controller;
 
-use Pinturus\Entity\Poem;
-use Pinturus\Form\Type\PoemType;
 use Silex\Application;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;

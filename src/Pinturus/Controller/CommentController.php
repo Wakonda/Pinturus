@@ -41,22 +41,18 @@ class CommentController
 		if($form->isValid())
 		{
 			$entity->setUser($user);
-			
-			$poem = $app['repository.poem']->find($paintingId);
-			$entity->setPoem($paintingId);
-			
+			$entity->setPainting($paintingId);
+
 			$app['repository.comment']->save($entity);
 			
 			$entities = $app['repository.comment']->findAll();
 
-			$error = "";
+			$form = $app['form.factory']->create(CommentType::class, new Comment());
 		}
-		else
-			$error = "Ce champ ne doit pas être vide";	
 
 		$params = $this->getParametersComment($request, $app, $paintingId);
 
-		return $app['twig']->render('Comment/form.html.twig', array("form" => $form->createView(), "test" => "lll;;;"));
+		return $app['twig']->render('Comment/form.html.twig', array("form" => $form->createView()));
 	}
 	
 	public function loadCommentAction(Request $request, Application $app, $paintingId)
