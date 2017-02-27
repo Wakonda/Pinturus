@@ -52,7 +52,7 @@ class PageRepository extends GenericRepository implements iRepository
         return $data ? $this->build($data, $show) : null;
     }
 
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new Page();
         $entity->setId($data['id']);

@@ -79,8 +79,7 @@ class PaintingVoteRepository extends GenericRepository
 		return $dataArray;
 	}
 
-
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new PaintingVote();
 

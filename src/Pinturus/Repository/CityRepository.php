@@ -6,7 +6,7 @@ use Doctrine\DBAL\Connection;
 use Pinturus\Entity\City;
 
 /**
- * Poem repository
+ * City repository
  */
 class CityRepository extends GenericRepository implements iRepository
 {
@@ -74,7 +74,7 @@ class CityRepository extends GenericRepository implements iRepository
 		return $qb->execute()->fetchColumn();
 	}
 
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new City();
         $entity->setId($data['id']);

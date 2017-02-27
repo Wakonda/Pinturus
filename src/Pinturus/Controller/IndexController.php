@@ -12,8 +12,6 @@ use Pinturus\Service\MailerPinturus;
 use Pinturus\Service\Captcha;
 use Pinturus\Service\Gravatar;
 
-use Pinturus\Entity\Poem;
-use Pinturus\Form\Type\PoemUserType;
 use MatthiasMullie\Minify;
 
 require_once __DIR__.'/../../../src/html2pdf_v4.03/Html2Pdf.php';

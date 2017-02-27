@@ -86,6 +86,6 @@ class Comment
 
     public function setPainting($painting)
     {
-        $this->poem = $painting;
+        $this->painting = $painting;
     }
 }

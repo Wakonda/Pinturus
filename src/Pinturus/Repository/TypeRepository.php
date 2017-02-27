@@ -72,7 +72,7 @@ class TypeRepository extends GenericRepository implements iRepository
 		return $entitiesArray;
 	}
 
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new Type();
         $entity->setId($data['id']);

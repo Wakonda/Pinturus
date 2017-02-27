@@ -95,6 +95,6 @@ class PaintingType extends AbstractType
 	
     public function getName()
     {
-        return 'poem';
+        return 'painting';
     }
 }

@@ -400,10 +400,10 @@ class PaintingRepository extends GenericRepository implements iRepository
 		return $results[0]["count"];
 	}
 
-	public function browsingPaintingShow($params, $poemId)
+	public function browsingPaintingShow($params, $paintingId)
 	{
 		// Previous
-		$subqueryPrevious = 'p.id = (SELECT MAX(p2.id) FROM painting p2 WHERE p2.id < '.$poemId.')';
+		$subqueryPrevious = 'p.id = (SELECT MAX(p2.id) FROM painting p2 WHERE p2.id < '.$paintingId.')';
 		$qb_previous = $this->db->createQueryBuilder();
 		
 		$qb_previous->select("p.id, p.title")
@@ -413,7 +413,7 @@ class PaintingRepository extends GenericRepository implements iRepository
 		   ->andWhere($subqueryPrevious);
 		   
 		// Next
-		$subqueryNext = 'p.id = (SELECT MIN(p2.id) FROM painting p2 WHERE p2.id > '.$poemId.')';
+		$subqueryNext = 'p.id = (SELECT MIN(p2.id) FROM painting p2 WHERE p2.id > '.$paintingId.')';
 		$qb_next = $this->db->createQueryBuilder();
 		
 		$qb_next->select("p.id, p.title")

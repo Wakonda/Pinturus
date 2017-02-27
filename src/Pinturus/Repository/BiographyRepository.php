@@ -6,7 +6,7 @@ use Doctrine\DBAL\Connection;
 use Pinturus\Entity\Biography;
 
 /**
- * Poem repository
+ * Biography repository
  */
 class BiographyRepository extends GenericRepository implements iRepository
 {
@@ -97,7 +97,7 @@ class BiographyRepository extends GenericRepository implements iRepository
 		return $entitiesArray;
 	}
 	
-	protected function build($data, $show = false)
+	public function build($data, $show = false)
     {
         $entity = new Biography();
         $entity->setId($data['id']);
@@ -122,19 +122,6 @@ class BiographyRepository extends GenericRepository implements iRepository
 
         return $entity;
     }
-	
-	public function getPoemByAuthors()
-	{
-		$qb = $this->db->createQueryBuilder();
-	
-		$qb->select("*")
-		   ->from("poem", "pf")
-		   ->groupBy("pf.biography_id");
-		   
-		$dataArray = $qb->execute()->fetchAll();
-		
-		return $dataArray;
-	}
 	
 	public function findAllForChoice()
 	{

@@ -346,55 +346,6 @@ class UserController implements ControllerProviderInterface
 	}
 	
 	// Profil show
-	//** Mes Poésies
-	public function poemsUserDatatablesAction(Request $request, Application $app, $username)
-	{
-		$iDisplayStart = $request->query->get('iDisplayStart');
-		$iDisplayLength = $request->query->get('iDisplayLength');
-		$sSearch = $request->query->get('sSearch');
-
-		$sortByColumn = array();
-		$sortDirColumn = array();
-			
-		for($i=0 ; $i<intval($request->query->get('iSortingCols')); $i++)
-		{
-			if ($request->query->get('bSortable_'.intval($request->query->get('iSortCol_'.$i))) == "true" )
-			{
-				$sortByColumn[] = $request->query->get('iSortCol_'.$i);
-				$sortDirColumn[] = $request->query->get('sSortDir_'.$i);
-			}
-		}
-
-		$entities = $app['repository.poem']->findPoemByUserAndAuhorType($iDisplayStart, $iDisplayLength, $sortByColumn, $sortDirColumn, $sSearch, $username, $this->getCurrentUser($app), 'user');
-		$iTotal = $app['repository.poem']->findPoemByUserAndAuhorType($iDisplayStart, $iDisplayLength, $sortByColumn, $sortDirColumn, $sSearch, $username, $this->getCurrentUser($app), 'user', true);
-
-		$output = array(
-			"sEcho" => $request->query->get('sEcho'),
-			"iTotalRecords" => $iTotal,
-			"iTotalDisplayRecords" => $iTotal,
-			"aaData" => array()
-		);
-
-		foreach($entities as $entity)
-		{
-			$row = array();
-
-			$show = $app['url_generator']->generate('read', array('id' => $entity->getId()));
-			$row[] = '<a href="'.$show.'" alt="Show">'.$entity->getTitle().'</a>';
-
-			if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_REMEMBERED') and $this->getCurrentUser($app)->getUsername() == $username) {
-				$row[] = '<div class="state_poem '.$entity->getStateRealName().'">'.$entity->getStateString().'</div>';
-				$row[] = '<a href="'.$app['url_generator']->generate('poemuser_edit', array("id" => $entity->getId())).'" alt=""><span class="glyphicon glyphicon-pencil">Modifier</span></a> / <a href="#" alt="" data-id="'.$entity->getId().'" class="delete_poem"><span class="glyphicon glyphicon-remove">Supprimer</span></a>';
-			}
-			
-			$output['aaData'][] = $row;
-		}
-
-		$response = new Response(json_encode($output));
-		$response->headers->set('Content-Type', 'application/json');
-		return $response;
-	}
-	
 	//** Mes Votes
 	public function votesUserDatatablesAction(Request $request, Application $app, $username)
 	{
