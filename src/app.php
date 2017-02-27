@@ -256,12 +256,12 @@ $app['form.type.extensions'] = $app->extend('form.type.extensions', function ($e
 $app['swiftmailer.options'] = array(
 	'host' => 'smtp.gmail.com',
 	'port' => 465,
-    'username' => 'amatukami66@gmail.com',
-    'password' => 'rclens66',
+    'username' => 'test@yopmail.com',
+    'password' => 'test',
     'encryption' => 'ssl'
 );
 
 // Global
 $app['web_directory'] = realpath(__DIR__."/../web");
-// die(var_dump($app["request"]));
+
 return $app;
