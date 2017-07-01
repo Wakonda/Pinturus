@@ -22,6 +22,8 @@
 		{% endblock %}
 		
 		<script src="{{ app.request_stack.currentrequest.basepath }}/js/jquery.js"></script>
+		{% block script_additional_sup %}
+		{% endblock %}
 	</head>
 	<body>
 		<div class="resize"></div>
@@ -176,6 +178,13 @@
 			$( document ).ajaxComplete(function() {
 				resizeAsideArticle();
 			});
+
+			window.fbAsyncInit = function(){
+				FB.Event.subscribe("xfbml.render", function(){
+				console.log("ldldl")
+					resizeAsideArticle();
+				});
+			};
 		</script>
 	</body>
 </html>

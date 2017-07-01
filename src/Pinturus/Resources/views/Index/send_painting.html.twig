@@ -22,6 +22,7 @@
 					else
 					{
 						$("form#send_painting_form").find("input[type=text], textarea").val("");
+						tinyMCE.activeEditor.setContent('');
 						$('#send_painting_modal').modal('hide');
 						$('html, body').animate({scrollTop:$('h1').position().top}, 'slow');
 						$('#send_painting_result').html("Cette peinture a été envoyée avec succès !");

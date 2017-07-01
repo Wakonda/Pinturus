@@ -242,7 +242,7 @@ $app["controllers.sendpainting"] = function($app) {
 
 // Register Services
 $app['generic_function'] = function ($app) {
-    return new Poeticus\Service\GenericFunction($app);
+    return new Pinturus\Service\GenericFunction($app);
 };
 
 // Form extension

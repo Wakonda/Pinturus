@@ -93,4 +93,40 @@ class CityRepository extends GenericRepository implements iRepository
 
         return $entity;
     }
+
+	public function getDatatablesForIndex($iDisplayStart, $iDisplayLength, $sortByColumn, $sortDirColumn, $sSearch, $count = false)
+	{
+		$qb = $this->db->createQueryBuilder();
+
+		$aColumns = array( 'pf.id', 'pf.title', 'pf.id');
+		
+		$qb->select("*")
+		   ->from("city", "pf");
+		
+		if(!empty($sortDirColumn))
+		   $qb->orderBy($aColumns[$sortByColumn[0]], $sortDirColumn[0]);
+		
+		if(!empty($sSearch))
+		{
+			$search = "%".$sSearch."%";
+			$qb->where('pf.title LIKE :search')
+			   ->setParameter('search', $search);
+		}
+		if($count)
+		{
+			$qb->select("COUNT(*) AS count");
+			return $qb->execute()->fetchColumn();
+		}
+		else
+			$qb->setFirstResult($iDisplayStart)->setMaxResults($iDisplayLength);
+
+		$dataArray = $qb->execute()->fetchAll();
+		$entitiesArray = array();
+
+        foreach ($dataArray as $data) {
+            $entitiesArray[] = $this->build($data);
+        }
+			
+		return $entitiesArray;
+	}
 }

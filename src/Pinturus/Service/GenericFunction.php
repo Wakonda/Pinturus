@@ -1,5 +1,5 @@
 <?php
-namespace Poeticus\Service;
+namespace Pinturus\Service;
 
 class GenericFunction
 {
